@@ -31,8 +31,8 @@ public class ClientHandler {
         var client = clientRepository.findById(id);
         return client.flatMap(i -> ServerResponse.ok()
                     .contentType(MediaType.TEXT_EVENT_STREAM)
-                    .body(fromValue(client))
-                .switchIfEmpty(notFound));
+                    .body(client, Client.class))
+                .switchIfEmpty(notFound);
     }
 
     public Mono<ServerResponse> create(ServerRequest serverRequest) {
@@ -43,18 +43,25 @@ public class ClientHandler {
     }
 
     public Mono<ServerResponse> edit(ServerRequest serverRequest) {
-        var clientMono = serverRequest.bodyToMono(Client.class);
-        return clientRepository.findById(clientMono.map(Client::getId))
-                .flatMap(c -> ServerResponse.status(HttpStatus.CREATED)
-                    .contentType(MediaType.TEXT_EVENT_STREAM)
-                    .body(clientRepository.save(c), Client.class))
-                .switchIfEmpty(notFound);
+        return serverRequest.bodyToMono(Client.class).flatMap(v -> {
+            return clientRepository.findById(v.getId()).flatMap(c -> {
+                c.setName(v.getName());
+                c.setSurname(v.getSurname());
+                c.setImei(v.getImei());
+                c.setCellPhoneNumber(v.getCellPhoneNumber());
+                c.setEmail(v.getEmail());
+                c.setCardNumber(v.getCardNumber());
+                return ServerResponse.status(HttpStatus.CREATED)
+                        .contentType(MediaType.TEXT_EVENT_STREAM)
+                        .body(clientRepository.save(c), Client.class);
+            }).switchIfEmpty(notFound);
+        });
     }
 
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
         var id = Integer.parseInt(serverRequest.pathVariable("id"));
         return clientRepository.findById(id)
-                .flatMap(c -> ServerResponse.status(HttpStatus.CREATED)
+                .flatMap(c -> ServerResponse.status(HttpStatus.OK)
                         .contentType(MediaType.TEXT_EVENT_STREAM)
                         .body(clientRepository.delete(c), Void.class))
                 .switchIfEmpty(notFound);
