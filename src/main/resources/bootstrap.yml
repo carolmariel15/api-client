@@ -3,6 +3,21 @@ server:
 spring:
   data:
     mongodb:
-      database: dbYanki
+      database: dbClientY
       port: 27017
       host: localhost
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
+  kafka:
+    consumer:
+      group-id: myGroup
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
