@@ -6,6 +6,5 @@ import reactor.core.publisher.Mono;
 public interface KafkaJsonConsumerImpl {
 
     public Mono<Object> getCurrency();
-    public Flux<Object> getTypeOperation();
 
 }

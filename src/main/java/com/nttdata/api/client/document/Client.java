@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,12 +16,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Client {
 
     @Id
-    private Integer id;
+    private String id;
     private String name;
     private String surname;
+    @NotNull
     private String imei;
-    private Integer cellPhoneNumber;
+    @NotNull
+    private String phone;
+    @Email
     private String email;
-    private String cardNumber;
 
 }

@@ -17,11 +17,6 @@ public class KafkaJsonConsumer implements  KafkaJsonConsumerImpl {
         System.out.println(currency);
     }
 
-    @KafkaListener(topics = "topic-typeoperation", groupId = "myGroup")
-    public void consumeTypeOperation(Object typeOperation) {
-        typeOperation = Flux.just(typeOperation);
-    }
-
     @Override
     public Mono<Object> getCurrency() {
         System.out.println("Entra currency");
@@ -29,8 +24,4 @@ public class KafkaJsonConsumer implements  KafkaJsonConsumerImpl {
         return currency;
     }
 
-    @Override
-    public Flux<Object> getTypeOperation() {
-        return typeOperation;
-    }
 }

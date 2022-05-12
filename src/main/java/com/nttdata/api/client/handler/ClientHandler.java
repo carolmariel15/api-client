@@ -32,7 +32,7 @@ public class ClientHandler {
     }
 
     public Mono<ServerResponse> getClient(ServerRequest serverRequest) {
-        var id = Integer.parseInt(serverRequest.pathVariable("id"));
+        var id = String.valueOf(serverRequest.pathVariable("id"));
         var client = clientRepository.findById(id);
         return client.flatMap(i -> ServerResponse.ok()
                     .contentType(MediaType.TEXT_EVENT_STREAM)
@@ -53,9 +53,8 @@ public class ClientHandler {
                 c.setName(v.getName());
                 c.setSurname(v.getSurname());
                 c.setImei(v.getImei());
-                c.setCellPhoneNumber(v.getCellPhoneNumber());
+                c.setPhone(v.getPhone());
                 c.setEmail(v.getEmail());
-                c.setCardNumber(v.getCardNumber());
                 return ServerResponse.status(HttpStatus.CREATED)
                         .contentType(MediaType.TEXT_EVENT_STREAM)
                         .body(clientRepository.save(c), Client.class);
@@ -64,7 +63,7 @@ public class ClientHandler {
     }
 
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
-        var id = Integer.parseInt(serverRequest.pathVariable("id"));
+        var id = String.valueOf(serverRequest.pathVariable("id"));
         return clientRepository.findById(id)
                 .flatMap(c -> ServerResponse.status(HttpStatus.OK)
                         .contentType(MediaType.TEXT_EVENT_STREAM)

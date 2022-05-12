@@ -20,7 +20,7 @@ public class ClientRouter {
                 .andRoute(POST("/client").and(accept(MediaType.TEXT_EVENT_STREAM)), clientHandler::create)
                 .andRoute(PUT("/client").and(accept(MediaType.TEXT_EVENT_STREAM)), clientHandler::edit)
                 .andRoute(DELETE("/client/{id}").and(accept(MediaType.TEXT_EVENT_STREAM)), clientHandler::delete)
-                .andRoute(GET("/client/currency").and(accept(MediaType.TEXT_EVENT_STREAM)), clientHandler::getConsumer);
+                .andRoute(GET("/client/{id}").and(accept(MediaType.TEXT_EVENT_STREAM)), clientHandler::getConsumer);
     }
 
 }
