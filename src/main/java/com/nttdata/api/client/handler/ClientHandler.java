@@ -1,8 +1,8 @@
 package com.nttdata.api.client.handler;
 
 import com.nttdata.api.client.consumer.KafkaJsonConsumer;
+import com.nttdata.api.client.consumer.KafkaJsonConsumerImpl;
 import com.nttdata.api.client.document.Client;
-import com.nttdata.api.client.producer.KafkaProducer;
 import com.nttdata.api.client.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
