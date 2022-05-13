@@ -52,9 +52,6 @@ public class ClientHandler {
             return clientRepository.findById(v.getId()).flatMap(c -> {
                 c.setName(v.getName());
                 c.setSurname(v.getSurname());
-                c.setImei(v.getImei());
-                c.setPhone(v.getPhone());
-                c.setEmail(v.getEmail());
                 return ServerResponse.status(HttpStatus.CREATED)
                         .contentType(MediaType.TEXT_EVENT_STREAM)
                         .body(clientRepository.save(c), Client.class);
